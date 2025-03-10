@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.UuidGenerator;
 
-public class TaxDTO {
+public class TaxResponseDTO {
     @UuidGenerator
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,13 +27,13 @@ public class TaxDTO {
     @Column(name = "alíquota")
     private double aliquot;
 
-    public TaxDTO(String name, String description, double aliquot) {
+    public TaxResponseDTO(String name, String description, double aliquot) {
         this.name = name;
         this.description = description;
         this.aliquot = aliquot;
     }
 
-    public TaxDTO() {}
+    public TaxResponseDTO() {}
 
     public long getId() {
         return id;
