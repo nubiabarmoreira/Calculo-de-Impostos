@@ -1,12 +1,9 @@
 package br.com.calculo_de_impostos.dtos;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.UuidGenerator;
 
 public class TaxRequestDto {
     @NotBlank(message = "O nome do imposto deve ser informado.")

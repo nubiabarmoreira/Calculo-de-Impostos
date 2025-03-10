@@ -27,6 +27,13 @@ public class TaxModel {
     @Column(name = "alíquota")
     private double aliquot;
 
+    public TaxModel(long id, String name, String description, double aliquot) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.aliquot = aliquot;
+    }
+
     public TaxModel(String name, String description, double aliquot) {
         this.name = name;
         this.description = description;
