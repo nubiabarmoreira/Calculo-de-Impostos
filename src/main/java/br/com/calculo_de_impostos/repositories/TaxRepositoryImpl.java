@@ -2,10 +2,12 @@ package br.com.calculo_de_impostos.repositories;
 
 import br.com.calculo_de_impostos.dtos.TaxResponseDto;
 import br.com.calculo_de_impostos.models.TaxModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class TaxRepositoryImpl implements TaxRepository {
+    @Autowired
     private final DatabaseTaxRepository databaseTaxRepository;
 
     public TaxRepositoryImpl (DatabaseTaxRepository databaseTaxRepository){
