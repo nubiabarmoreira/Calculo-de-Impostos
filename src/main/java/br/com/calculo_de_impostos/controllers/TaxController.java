@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/impostos")
@@ -28,4 +25,25 @@ public class TaxController {
         TaxResponseDto taxResponse = taxService.createTax(taxRequest.getName(), taxRequest.getDescription(), taxRequest.getAliquot());
         return ResponseEntity.status(HttpStatus.CREATED).body(taxResponse);
     }
+
+   // @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/tipos/{id}")
+    public ResponseEntity<Void> deleteTaxById (@Valid @PathVariable long id){
+        taxService.deleteTaxById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

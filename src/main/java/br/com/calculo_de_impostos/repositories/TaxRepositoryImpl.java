@@ -5,6 +5,8 @@ import br.com.calculo_de_impostos.models.TaxModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class TaxRepositoryImpl implements TaxRepository {
     @Autowired
@@ -20,5 +22,10 @@ public class TaxRepositoryImpl implements TaxRepository {
         TaxModel taxSaved = databaseTaxRepository.save(taxToSave);
 
         return new TaxResponseDto(taxSaved.getId(), taxSaved.getName(), taxSaved.getDescription(), taxSaved.getAliquot());
+    }
+
+    @Override
+    public void deleteTaxById(long id) {
+        return databaseTaxRepository.deleteById(id);
     }
 }
