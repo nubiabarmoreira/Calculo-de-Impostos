@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TaxServiceImpl implements TaxService {
-    private TaxRepository taxRepository;
+    private final TaxRepository taxRepository;
 
     public TaxServiceImpl(TaxRepository taxRepository){
         this.taxRepository = taxRepository;
