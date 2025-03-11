@@ -9,7 +9,7 @@ import org.hibernate.annotations.UuidGenerator;
 @Entity
 @Table(name = "impostos")
 public class TaxModel {
-    @UuidGenerator
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
