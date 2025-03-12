@@ -15,7 +15,7 @@ public class TaxResponseDto {
 
     @NotBlank(message = "O nome do imposto deve ser informado.")
     @Size(min = 2, message = "O nome do imposto deve ter no mínimo 2 caracteres.")
-    @Column(name = "nome do imposto")
+    @Column(name = "nome do imposto", unique = true)
     private String name;
 
     @NotBlank(message = "A descrição do imposto deve ser informada.")
