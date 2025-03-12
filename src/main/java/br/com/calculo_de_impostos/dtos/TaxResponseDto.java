@@ -3,13 +3,13 @@ package br.com.calculo_de_impostos.dtos;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.UuidGenerator;
 
 public class TaxResponseDto {
-    @UuidGenerator
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
