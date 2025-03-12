@@ -1,20 +1,18 @@
-package br.com.calculo_de_impostos.repositories;
+package br.com.calculo_de_impostos.repositories.taxRepository;
 
 import br.com.calculo_de_impostos.dtos.TaxResponseDto;
 import br.com.calculo_de_impostos.models.TaxModel;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public class TaxRepositoryImpl implements TaxRepository {
-    @Autowired
-    private final DatabaseTaxRepository databaseTaxRepository;
-
-    public TaxRepositoryImpl (DatabaseTaxRepository databaseTaxRepository){
-        this.databaseTaxRepository = databaseTaxRepository;
-    }
+//    @Autowired
+//    private final DatabaseTaxRepository databaseTaxRepository;
+//
+//    public TaxRepositoryImpl (DatabaseTaxRepository databaseTaxRepository){
+//        this.databaseTaxRepository = databaseTaxRepository;
+//    }
 
     @Override
     public TaxResponseDto saveTax(TaxResponseDto taxToCreate) {
@@ -26,6 +24,9 @@ public class TaxRepositoryImpl implements TaxRepository {
 
     @Override
     public void deleteTaxById(long id) {
-        return databaseTaxRepository.deleteById(id);
+        if (!databaseTaxRepository.findById(id)) {
+            throw new EntityNotFoundException("O imposto com o ID " + id + " não foi encontrado.");
+        }
+        databaseTaxRepository.deleteById(id);
     }
 }

@@ -1,4 +1,4 @@
-package br.com.calculo_de_impostos.controllers;
+package br.com.calculo_de_impostos.controllers.taxController;
 
 import br.com.calculo_de_impostos.dtos.TaxRequestDto;
 import br.com.calculo_de_impostos.dtos.TaxResponseDto;
@@ -33,7 +33,8 @@ public class TaxController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping("/tipos")
+    public ResponseEntity<TaxResponseDto>
 
 
 
