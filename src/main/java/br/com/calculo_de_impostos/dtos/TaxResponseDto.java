@@ -5,12 +5,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class TaxResponseDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Pattern(regexp = "\\d+", message = "O campo deve conter apenas caracteres numéricos.")
     private long id;
 
     @NotBlank(message = "O nome do imposto deve ser informado.")
