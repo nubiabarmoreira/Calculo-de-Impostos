@@ -2,17 +2,17 @@ package br.com.calculo_de_impostos.dtos.userDtos;
 
 public class UserRegistrationResponseDto {
     private long id;
-    private String usarname;
+    private String username;
     private String role;
 
-    public UserRegistrationResponseDto(long id, String usarname, String role) {
+    public UserRegistrationResponseDto(long id, String username, String role) {
         this.id = id;
-        this.usarname = usarname;
+        this.username = username;
         this.role = role;
     }
 
-    public UserRegistrationResponseDto(String usarname, String role) {
-        this.usarname = usarname;
+    public UserRegistrationResponseDto(String username, String role) {
+        this.username = username;
         this.role = role;
     }
 
@@ -26,12 +26,12 @@ public class UserRegistrationResponseDto {
         this.id = id;
     }
 
-    public String getUsarname() {
-        return usarname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsarname(String usarname) {
-        this.usarname = usarname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getRole() {
