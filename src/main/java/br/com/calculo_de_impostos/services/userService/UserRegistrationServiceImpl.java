@@ -1,11 +1,13 @@
 package br.com.calculo_de_impostos.services.userService;
 
+import br.com.calculo_de_impostos.dtos.userDtos.RoleEnum;
 import br.com.calculo_de_impostos.dtos.userDtos.UserRegistrationRequestDto;
 import br.com.calculo_de_impostos.dtos.userDtos.UserRegistrationResponseDto;
 import br.com.calculo_de_impostos.models.RoleModel;
 import br.com.calculo_de_impostos.models.UserModel;
 import br.com.calculo_de_impostos.repositories.userRepository.RoleRepository;
 import br.com.calculo_de_impostos.repositories.userRepository.UserRegistrationRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,38 +19,36 @@ import java.util.stream.Collectors;
 public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Autowired
     private final UserRegistrationRepository userRegistrationRepository;
+    @Autowired
     private final PasswordEncoder bCryptPasswordEncoder;
-    private final RoleRepository roleRepository;
+    @Autowired
+    private final RoleEnum roleEnum;
 
-    public UserRegistrationServiceImpl(UserRegistrationRepository userRegistrationRepository, PasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
+    public UserRegistrationServiceImpl(UserRegistrationRepository userRegistrationRepository, PasswordEncoder bCryptPasswordEncoder, RoleEnum roleEnum) {
         this.userRegistrationRepository = userRegistrationRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.roleRepository = roleRepository;
+        this.roleEnum = roleEnum;
     }
 
     @Override
     public UserRegistrationResponseDto registerUser(UserRegistrationRequestDto userRegistrationRequest) {
-        checkIfUserByNameExists(userRegistrationRequest.getUsername());
+        checkIfUserByNameAndRoleExists(userRegistrationRequest);
 
-        UserModel userModel = new UserModel();
-        userModel.setUsername(userRegistrationRequest.getUsername());
-        userModel.setPassword(bCryptPasswordEncoder.encode(userRegistrationRequest.getPassword()));
+        UserModel newUser = new UserModel();
+        newUser.setUsername(userRegistrationRequest.getUsername());
+        newUser.setPassword(bCryptPasswordEncoder.encode(userRegistrationRequest.getPassword()));
+        newUser.setRole(userRegistrationRequest.getRole());
 
-        Set<RoleModel> roleModel = userRegistrationRequest.getRole()
-                .stream()
-                .map(role -> new RoleModel(role.name()))
-                .collect(Collectors.toSet());
-        roleRepository.saveAll(roleModel);
+        userRegistrationRepository.save(newUser);
 
-        userModel.setRole(roleModel.toString());
-        userRegistrationRepository.save(userModel);
-
-        return new UserRegistrationResponseDto(userModel.getId(), userModel.getUsername(), roleModel.toString());
+        return new UserRegistrationResponseDto(newUser.getId(), newUser.getUsername(), newUser.getRole());
     }
 
-    private void checkIfUserByNameExists(String username) {
-        if (userRegistrationRepository.findByUsername(username).isPresent()) {
-            throw new IllegalArgumentException("Usuário " + username + " já existente.");
-        }
+    private String checkIfUserByNameAndRoleExists(UserRegistrationRequestDto userRegistrationRequest) {
+        if (userRegistrationRepository.findByUsername(userRegistrationRequest.getUsername()).isPresent()) {
+            if (roleEnum.equals(userRegistrationRequest.getRole())) {
+                return ("Usuário registrado.");
+            } throw new EntityNotFoundException("Role " + userRegistrationRequest.getRole() + " não listada.");
+        } throw new EntityNotFoundException("Usuário " + userRegistrationRequest.getUsername() + " já existente. Forneça outro.");
     }
 }
