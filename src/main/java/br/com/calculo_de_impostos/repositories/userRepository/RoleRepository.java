@@ -1,4 +1,9 @@
 package br.com.calculo_de_impostos.repositories.userRepository;
 
-public class RoleRepository {
+import br.com.calculo_de_impostos.models.RoleModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RoleRepository extends JpaRepository<RoleModel, Long> {
 }
