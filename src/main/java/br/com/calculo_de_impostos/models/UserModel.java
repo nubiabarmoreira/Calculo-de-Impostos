@@ -1,5 +1,6 @@
 package br.com.calculo_de_impostos.models;
 
+import br.com.calculo_de_impostos.dtos.userDtos.RoleEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -23,16 +24,16 @@ public class UserModel {
 
     @NotBlank(message = "Informe se o cadastro será de usuário ou de administrador.")
     @Column(name = "papel/função")
-    private String role;
+    private RoleEnum role;
 
-    public UserModel(long id, String username, String password, String role) {
+    public UserModel(long id, String username, String password, RoleEnum role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public UserModel(String username, String password, String role) {
+    public UserModel(String username, String password, RoleEnum role) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -64,11 +65,11 @@ public class UserModel {
         this.password = password;
     }
 
-    public String getRole() {
+    public RoleEnum getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleEnum role) {
         this.role = role;
     }
 }

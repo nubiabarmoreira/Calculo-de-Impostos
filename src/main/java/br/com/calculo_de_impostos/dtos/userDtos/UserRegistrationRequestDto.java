@@ -19,9 +19,9 @@ public class UserRegistrationRequestDto {
 
     @NotBlank(message = "Informe se o cadastro será de usuário ou de administrador.")
     @Column(name = "papel/função")
-    private Set<RoleEnum> role;
+    private RoleEnum role;
 
-    public UserRegistrationRequestDto(String username, String password, Set<RoleEnum> role) {
+    public UserRegistrationRequestDto(String username, String password, RoleEnum role) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -45,11 +45,11 @@ public class UserRegistrationRequestDto {
         this.password = password;
     }
 
-    public Set<RoleEnum> getRole() {
+    public RoleEnum getRole() {
         return role;
     }
 
-    public void setRole(Set<RoleEnum> role) {
+    public void setRole(RoleEnum role) {
         this.role = role;
     }
 }

@@ -5,15 +5,15 @@ import java.util.Set;
 public class UserRegistrationResponseDto {
     private long id;
     private String username;
-    private Set<RoleEnum> role;
+    private RoleEnum role;
 
-    public UserRegistrationResponseDto(long id, String username, Set<RoleEnum> role) {
+    public UserRegistrationResponseDto(long id, String username, RoleEnum role) {
         this.id = id;
         this.username = username;
         this.role = role;
     }
 
-    public UserRegistrationResponseDto(String username, Set<RoleEnum> role) {
+    public UserRegistrationResponseDto(String username, RoleEnum role) {
         this.username = username;
         this.role = role;
     }
@@ -36,11 +36,11 @@ public class UserRegistrationResponseDto {
         this.username = username;
     }
 
-    public Set<RoleEnum> getRole() {
+    public RoleEnum getRole() {
         return role;
     }
 
-    public void setRole(Set<RoleEnum> role) {
+    public void setRole(RoleEnum role) {
         this.role = role;
     }
 }
