@@ -3,32 +3,92 @@ package br.com.calculo_de_impostos.infra.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private UserDetailsService userDetailsService;
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public PasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, "/tipos").hasRole("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/cálculo").hasRole("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/tipos/id").hasRole("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/usuários/registrar").hasRole("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/usuários/login").hasRole("ROLE_ADMIN")
-                        .anyRequest().authenticated()
-        );
+                    request.requestMatchers(HttpMethod.POST, "/impostos/tipos").hasRole("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/impostos/cálculo").hasRole("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/impostos/tipos/{id}").hasRole("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/usuários/cadastro").hasRole("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/usuários/login").hasRole("ROLE_ADMIN")
+                    .anyRequest().authenticated()
+        ).httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
+
+        http.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint));
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder bCryptPasswordEncoder(){
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
+
+
+//JUNIOR
+
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+//
+//@Configuration
+//@EnableWebSecurity
+//public class SecurityConfig extends WebSecurityConfigurerAdapter {
+//
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests()
+//                .antMatchers("/impostos/cadastrar").hasRole("ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin().permitAll()
+//                .and()
+//                .logout().permitAll();
+//    }
+//
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("admin")
+//                .password(passwordEncoder().encode("adminpassword"))
+//                .roles("ADMIN");
+//    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//}
