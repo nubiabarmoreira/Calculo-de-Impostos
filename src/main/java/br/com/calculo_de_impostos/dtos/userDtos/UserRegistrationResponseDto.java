@@ -1,17 +1,19 @@
 package br.com.calculo_de_impostos.dtos.userDtos;
 
+import java.util.Set;
+
 public class UserRegistrationResponseDto {
     private long id;
     private String username;
-    private String role;
+    private Set<RoleEnum> role;
 
-    public UserRegistrationResponseDto(long id, String username, String role) {
+    public UserRegistrationResponseDto(long id, String username, Set<RoleEnum> role) {
         this.id = id;
         this.username = username;
         this.role = role;
     }
 
-    public UserRegistrationResponseDto(String username, String role) {
+    public UserRegistrationResponseDto(String username, Set<RoleEnum> role) {
         this.username = username;
         this.role = role;
     }
@@ -34,11 +36,11 @@ public class UserRegistrationResponseDto {
         this.username = username;
     }
 
-    public String getRole() {
+    public Set<RoleEnum> getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Set<RoleEnum> role) {
         this.role = role;
     }
 }

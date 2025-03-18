@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.Set;
+
 public class UserRegistrationRequestDto {
     @NotBlank(message = "O nome do usuário deve ser informado.")
     @Size(min = 2, message = "O nome do usuário deve ter no mínimo 2 caracteres.")
@@ -17,9 +19,9 @@ public class UserRegistrationRequestDto {
 
     @NotBlank(message = "Informe se o cadastro será de usuário ou de administrador.")
     @Column(name = "papel/função")
-    private String role;
+    private Set<RoleEnum> role;
 
-    public UserRegistrationRequestDto(String username, String password, String role) {
+    public UserRegistrationRequestDto(String username, String password, Set<RoleEnum> role) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -43,11 +45,11 @@ public class UserRegistrationRequestDto {
         this.password = password;
     }
 
-    public String getRole() {
+    public Set<RoleEnum> getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Set<RoleEnum> role) {
         this.role = role;
     }
 }
