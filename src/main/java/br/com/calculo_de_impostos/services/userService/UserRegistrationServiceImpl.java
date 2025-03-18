@@ -3,17 +3,12 @@ package br.com.calculo_de_impostos.services.userService;
 import br.com.calculo_de_impostos.dtos.userDtos.RoleEnum;
 import br.com.calculo_de_impostos.dtos.userDtos.UserRegistrationRequestDto;
 import br.com.calculo_de_impostos.dtos.userDtos.UserRegistrationResponseDto;
-import br.com.calculo_de_impostos.models.RoleModel;
 import br.com.calculo_de_impostos.models.UserModel;
-import br.com.calculo_de_impostos.repositories.userRepository.RoleRepository;
 import br.com.calculo_de_impostos.repositories.userRepository.UserRegistrationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserRegistrationServiceImpl implements UserRegistrationService {

@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
@@ -28,13 +27,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserModel userModel = userAuthenticationRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário " + username + " não localizado."));
 
-        Set<GrantedAuthority> authorities = userModel.getRole()
-                .stream()
-                .map((role) -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toSet());
+        Set<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(userModel.getRole().name()));
 
         return new org.springframework.security.core.userdetails.User(
-                username,
+                userModel.getUsername(),
                 userModel.getPassword(),
                 authorities
         );
