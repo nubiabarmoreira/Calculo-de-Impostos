@@ -45,7 +45,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 
     private String checkIfUserByNameExistsAndIfPasswordIsCorrect(UserAuthenticationRequestDto userAuthenticationRequest) {
         if (userAuthenticationRepository.findByUsername(userAuthenticationRequest.getUsername()).isPresent()) {
-            if (userAuthenticationRepository.findPassword(bCryptPasswordEncoder.encode(userAuthenticationRequest.getPassword())).isPresent()) {
+            if (userAuthenticationRepository.findByPassword(bCryptPasswordEncoder.encode(userAuthenticationRequest.getPassword())).isPresent()) {
                 return ("Usuário logado.");
             } return ("A senha está incorreta.");
         } throw new EntityNotFoundException("Usuário " + userAuthenticationRequest.getUsername() + " não localizado. Faça seu cadastro.");
