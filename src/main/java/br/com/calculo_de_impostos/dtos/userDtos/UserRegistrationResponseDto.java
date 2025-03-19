@@ -1,7 +1,5 @@
 package br.com.calculo_de_impostos.dtos.userDtos;
 
-import java.util.Set;
-
 public class UserRegistrationResponseDto {
     private long id;
     private String username;

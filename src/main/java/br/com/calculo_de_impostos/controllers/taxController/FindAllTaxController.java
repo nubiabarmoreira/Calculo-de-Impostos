@@ -1,6 +1,6 @@
 package br.com.calculo_de_impostos.controllers.taxController;
 
-import br.com.calculo_de_impostos.dtos.TaxResponseDto;
+import br.com.calculo_de_impostos.dtos.taxDtos.TaxResponseDto;
 import br.com.calculo_de_impostos.services.taxService.FindAllTaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

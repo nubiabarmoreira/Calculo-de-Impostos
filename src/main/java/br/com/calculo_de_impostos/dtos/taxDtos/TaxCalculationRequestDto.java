@@ -1,4 +1,4 @@
-package br.com.calculo_de_impostos.dtos;
+package br.com.calculo_de_impostos.dtos.taxDtos;
 
 import br.com.calculo_de_impostos.models.TaxModel;
 import jakarta.persistence.Column;
@@ -7,8 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 
 public class TaxCalculationRequestDto {
-    public final TaxModel taxModel = new TaxModel();
-
     @NotNull
     @PositiveOrZero(message = "O ID do imposto deve ser um número positivo.")
     @Pattern(regexp = "\\d+", message = "O ID do imposto deve conter apenas caracteres numéricos.")
@@ -29,7 +27,7 @@ public class TaxCalculationRequestDto {
     public TaxCalculationRequestDto() {}
 
     public Long getTaxTypeId() {
-        return taxModel.getId();
+        return taxTypeId;
     }
 
     public void setTaxTypeId(Long taxTypeId) {

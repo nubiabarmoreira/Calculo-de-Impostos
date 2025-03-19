@@ -4,6 +4,7 @@ import br.com.calculo_de_impostos.services.taxService.DeleteTaxByIdService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class DeleteTaxByIdController {
         this.deleteTaxByIdService = deleteTaxByIdService;
     }
 
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/tipos/{id}")
     public ResponseEntity<Void> deleteTaxById (@Valid @PathVariable long id){
         deleteTaxByIdService.deleteTaxById(id);

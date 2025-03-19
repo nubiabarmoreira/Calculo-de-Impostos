@@ -1,10 +1,8 @@
-package br.com.calculo_de_impostos.dtos;
+package br.com.calculo_de_impostos.dtos.taxDtos;
 
 import br.com.calculo_de_impostos.models.TaxModel;
 
 public class TaxCalculationResponseDto {
-    private final TaxModel taxModel = new TaxModel();
-
     private String taxTypeName;
     private double baseValue;
     private double aliquot;
@@ -20,7 +18,7 @@ public class TaxCalculationResponseDto {
     public TaxCalculationResponseDto() {}
 
     public String getTaxTypeName() {
-        return taxModel.getName();
+        return taxTypeName;
     }
 
     public void setTaxTypeName(String taxTypeName) {

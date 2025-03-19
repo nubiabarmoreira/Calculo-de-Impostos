@@ -14,16 +14,16 @@ public class UserModel {
 
     @NotBlank(message = "O nome do usuário deve ser informado.")
     @Size(min = 2, message = "O nome do usuário deve ter no mínimo 2 caracteres.")
-    @Column(name = "nome do usuário", unique = true)
+    @Column(name = "nome", unique = true)
     private String username;
 
     @NotBlank(message = "A senha deve ser informada.")
     @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres.")
-    @Column(name = "senha do usuário")
+    @Column(name = "senha")
     private String password;          //deve ser armazenada de forma segura (hashing com BCrypt)
 
     @NotBlank(message = "Informe se o cadastro será de usuário ou de administrador.")
-    @Column(name = "papel/função")
+    @Column(name = "autorizacao")
     private RoleEnum role;
 
     public UserModel(long id, String username, String password, RoleEnum role) {

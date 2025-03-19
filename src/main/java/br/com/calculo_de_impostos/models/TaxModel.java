@@ -14,16 +14,16 @@ public class TaxModel {
 
     @NotBlank(message = "O nome do imposto deve ser informado.")
     @Size(min = 2, message = "O nome do imposto deve ter no mínimo 2 caracteres.")
-    @Column(name = "nome do imposto", unique = true)
+    @Column(name = "nome", unique = true)
     private String name;
 
     @NotBlank(message = "A descrição do imposto deve ser informada.")
     @Size(min = 2, message = "A descrição do imposto deve ter no mínimo 2 caracteres.")
-    @Column(name = "descrição do imposto")
+    @Column(name = "descricao")
     private String description;
 
     @Positive(message = "A alíquota do imposto deve ser maior do que zero.")
-    @Column(name = "alíquota")
+    @Column(name = "aliquota")
     private double aliquot;
 
     public TaxModel(long id, String name, String description, double aliquot) {
