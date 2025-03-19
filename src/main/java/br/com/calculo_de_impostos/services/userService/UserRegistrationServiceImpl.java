@@ -16,13 +16,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private final UserRegistrationRepository userRegistrationRepository;
     @Autowired
     private final PasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private final RoleEnum roleEnum;
 
-    public UserRegistrationServiceImpl(UserRegistrationRepository userRegistrationRepository, PasswordEncoder bCryptPasswordEncoder, RoleEnum roleEnum) {
+    public UserRegistrationServiceImpl(UserRegistrationRepository userRegistrationRepository, PasswordEncoder bCryptPasswordEncoder) {
         this.userRegistrationRepository = userRegistrationRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.roleEnum = roleEnum;
     }
 
     @Override
@@ -41,7 +38,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private String checkIfUserByNameAndRoleExists(UserRegistrationRequestDto userRegistrationRequest) {
         if (userRegistrationRepository.findByUsername(userRegistrationRequest.getUsername()).isPresent()) {
-            if (roleEnum.equals(userRegistrationRequest.getRole())) {
+            if (RoleEnum.valueOf(userRegistrationRequest.getRole().name()).equals(userRegistrationRequest.getRole())) {
                 return ("Usuário registrado.");
             } throw new EntityNotFoundException("Role " + userRegistrationRequest.getRole() + " não listada.");
         } throw new EntityNotFoundException("Usuário " + userRegistrationRequest.getUsername() + " já existente. Forneça outro.");
