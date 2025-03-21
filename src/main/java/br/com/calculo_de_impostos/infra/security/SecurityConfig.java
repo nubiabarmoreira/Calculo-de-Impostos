@@ -22,6 +22,12 @@ public class SecurityConfig {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    public SecurityConfig(UserDetailsService userDetailsService, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.userDetailsService = userDetailsService;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
+
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -30,11 +36,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request ->
-                    request.requestMatchers(HttpMethod.POST, "/impostos/tipos").hasRole("ROLE_ADMIN")
-                    .requestMatchers(HttpMethod.POST, "/impostos/cálculo").hasRole("ROLE_ADMIN")
-                    .requestMatchers(HttpMethod.DELETE, "/impostos/tipos/{id}").hasRole("ROLE_ADMIN")
-                    .requestMatchers(HttpMethod.POST, "/usuários/cadastro").hasRole("ROLE_ADMIN")
-                    .requestMatchers(HttpMethod.POST, "/usuários/login").hasRole("ROLE_ADMIN")
+                    request.requestMatchers(HttpMethod.POST, "/impostos/tipos").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/impostos/cálculo").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/impostos/tipos/{id}").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/usuários/cadastro").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/usuários/login").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                     .anyRequest().authenticated()
         ).httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
