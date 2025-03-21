@@ -4,7 +4,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -13,10 +15,11 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    private String  jwtSecret = "key";
-    private long jwtExpirationDate = 3600000;  // 1 hora
+    private final String jwtSecret;
+    private long jwtExpirationDate = 3600000; // 1 hora
 
-    public JwtTokenProvider(String jwtSecret, long jwtExpirationDate) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String jwtSecret,
+                            @Value("${jwt.expiration}") long jwtExpirationDate) {
         this.jwtSecret = jwtSecret;
         this.jwtExpirationDate = jwtExpirationDate;
     }
@@ -25,14 +28,12 @@ public class JwtTokenProvider {
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .subject(name)
                 .issuedAt(new Date())
                 .expiration(expireDate)
                 .signWith(SignatureAlgorithm.HS256, key())
                 .compact();
-
-        return token;
     }
 
     private Key key() {
@@ -53,7 +54,6 @@ public class JwtTokenProvider {
                 .verifyWith((SecretKey) key())
                 .build()
                 .parse(token);
-
         return true;
     }
 }
