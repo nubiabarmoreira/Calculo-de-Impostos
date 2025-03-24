@@ -62,4 +62,17 @@ public class CreateTaxServiceImplTest {
         Assertions.assertEquals("O nome do imposto deve ser informado.", exception.getMessage());
     }
 
+    @Test
+    public void testCreateTaxWithEmptyDescription() {
+        String name = "ICMS";
+        String description = "";
+        double aliquot = 18.0;
+
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            createTaxService.createTax(name, description, aliquot);
+        });
+
+        Assertions.assertEquals("A descrição do imposto deve ser informada.", exception.getMessage());
+    }
+
 }
