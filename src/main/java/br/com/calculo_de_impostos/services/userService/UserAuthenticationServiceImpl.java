@@ -1,16 +1,25 @@
 package br.com.calculo_de_impostos.services.userService;
 
+import br.com.calculo_de_impostos.dtos.userDtos.RoleEnum;
 import br.com.calculo_de_impostos.dtos.userDtos.UserAuthenticationRequestDto;
-import br.com.calculo_de_impostos.infra.security.JwtTokenProvider;
+import br.com.calculo_de_impostos.dtos.userDtos.UserRegistrationRequestDto;
+import br.com.calculo_de_impostos.infra.security.JwtUtil;
+import br.com.calculo_de_impostos.models.UserModel;
 import br.com.calculo_de_impostos.repositories.userRepository.UserAuthenticationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserAuthenticationServiceImpl implements UserAuthenticationService {
@@ -21,13 +30,16 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtUtil jwtUtil;
+    @Autowired
+    private UserRegistrationRequestDto userRegistrationRequest;
 
-    public UserAuthenticationServiceImpl(UserAuthenticationRepository userAuthenticationRepository, PasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+    public UserAuthenticationServiceImpl(UserAuthenticationRepository userAuthenticationRepository, PasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserRegistrationRequestDto userRegistrationRequest) {
         this.userAuthenticationRepository = userAuthenticationRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtUtil = jwtUtil;
+        this.userRegistrationRequest = userRegistrationRequest;
     }
 
     @Override
@@ -40,7 +52,10 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtTokenProvider.generateToken(userAuthenticationRequest.getUsername());
+        List<String> roles = Collections.singletonList(userRegistrationRequest.getRole().name());
+        System.out.println("Role do usuário " + userAuthenticationRequest.getUsername() + ": " + roles);
+
+        return jwtUtil.generateToken(userAuthenticationRequest.getUsername(), roles);
     }
 
     private String checkIfUserByNameExistsAndIfPasswordIsCorrect(UserAuthenticationRequestDto userAuthenticationRequest) {
@@ -49,5 +64,13 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
                 return ("Usuário logado.");
             } return ("A senha está incorreta.");
         } throw new EntityNotFoundException("Usuário " + userAuthenticationRequest.getUsername() + " não localizado. Faça seu cadastro.");
+    }
+
+    public UserDetails loadUserByUsername(UserAuthenticationRequestDto userAuthenticationRequest) throws UsernameNotFoundException {
+        userAuthenticationRepository.findByUsername(userAuthenticationRequest.getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário " + userAuthenticationRequest.getUsername() + " não localizado."));
+
+        return new org.springframework.security.core.userdetails.User(userAuthenticationRequest.getUsername(), userAuthenticationRequest.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority(userRegistrationRequest.getRole().name())));
     }
 }
