@@ -40,4 +40,16 @@ public class CreateTaxControllerTest {
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
         Assertions.assertEquals(taxResponse, response.getBody());
     }
+
+    @Test
+    public void testCreateTaxWithNullName() {
+        String name = null;
+        String description = "ICMS";
+        double aliquot = 18.0;
+
+        IllegalArgumentException exception = Assertions
+                .assertThrows(IllegalArgumentException.class, () -> createTaxController.createTax(taxRequest));
+
+        Assertions.assertEquals("O nome do imposto deve ser informado.", exception.getMessage());
+    }
 }
