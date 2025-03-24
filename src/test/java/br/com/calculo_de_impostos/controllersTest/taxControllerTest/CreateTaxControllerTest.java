@@ -43,9 +43,9 @@ public class CreateTaxControllerTest {
 
     @Test
     public void testCreateTaxWithNullName() {
-        String name = null;
-        String description = "ICMS";
-        double aliquot = 18.0;
+        taxRequest.setName(null);
+        taxRequest.setDescription("ICMS");
+        taxRequest.setAliquot(18.0);
 
         IllegalArgumentException exception = Assertions
                 .assertThrows(IllegalArgumentException.class, () -> createTaxController.createTax(taxRequest));
