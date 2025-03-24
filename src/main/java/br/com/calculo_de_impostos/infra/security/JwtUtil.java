@@ -1,5 +1,6 @@
 package br.com.calculo_de_impostos.infra.security;
 
+import br.com.calculo_de_impostos.dtos.userDtos.RoleEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
