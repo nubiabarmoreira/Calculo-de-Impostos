@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
@@ -44,5 +45,14 @@ public class FindAllTaxServiceImplTest {
         Assertions.assertEquals("IPI", allTaxResponse.get(1).getName());
         Assertions.assertEquals(18.0, allTaxResponse.get(0).getAliquot());
         Assertions.assertEquals(3.25, allTaxResponse.get(1).getAliquot());
+    }
+
+    @Test
+    public void testFindAllTaxReturnsEmptyList() {
+        Mockito.when(findAllTaxRepository.findAll()).thenReturn(Collections.emptyList());
+
+        List<TaxResponseDto> allTaxResponse = findAllTaxService.findAllTax();
+
+        Assertions.assertTrue(allTaxResponse.isEmpty());
     }
 }
