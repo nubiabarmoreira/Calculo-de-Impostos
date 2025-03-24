@@ -63,4 +63,20 @@ public class TaxCalculationServiceImplTest {
 
         Assertions.assertEquals("Imposto com o ID " + taxTypeIdInvalid + " não encontrado.", entityNotFoundException.getMessage());
     }
+
+    @Test
+    public void testTaxCalculationBaseWithZeroBaseValue() {
+        taxModel.setId(1L);
+        taxModel.setName("ICMS");
+        taxModel.setAliquot(18.0);
+
+        Mockito.when(taxCalculationRepository.findById(1L)).thenReturn(taxModel);
+
+        taxCalculationRequest.setTaxTypeId(1L);
+        taxCalculationRequest.setBaseValue(0.0);
+
+        TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
+
+        Assertions.assertEquals(0.0, taxCalculationResponse.getTaxValue());
+    }
 }
