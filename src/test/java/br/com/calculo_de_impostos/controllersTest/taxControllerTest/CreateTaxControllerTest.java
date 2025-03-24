@@ -64,4 +64,16 @@ public class CreateTaxControllerTest {
 
         Assertions.assertEquals("A descrição do imposto deve ser informada.", exception.getMessage());
     }
+
+    @Test
+    public void testCreateTaxWithNegativeAliquot() {
+        taxRequest.setName("ICMS");
+        taxRequest.setDescription("ICMS");
+        taxRequest.setAliquot(-5.0);
+
+        IllegalArgumentException exception = Assertions
+                .assertThrows(IllegalArgumentException.class, () -> createTaxController.createTax(taxRequest));
+
+        Assertions.assertEquals("A alíquota do imposto deve ser maior do que zero.", exception.getMessage());
+    }
 }
