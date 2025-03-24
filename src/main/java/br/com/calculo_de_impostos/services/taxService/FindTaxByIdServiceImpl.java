@@ -1,6 +1,6 @@
 package br.com.calculo_de_impostos.services.taxService;
 
-import br.com.calculo_de_impostos.dtos.TaxResponseDto;
+import br.com.calculo_de_impostos.dtos.taxDtos.TaxResponseDto;
 import br.com.calculo_de_impostos.models.TaxModel;
 import br.com.calculo_de_impostos.repositories.taxRepository.FindTaxByIdRepository;
 import jakarta.persistence.EntityNotFoundException;
