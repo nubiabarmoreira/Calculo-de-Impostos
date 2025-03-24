@@ -5,6 +5,7 @@ import br.com.calculo_de_impostos.dtos.taxDtos.TaxCalculationResponseDto;
 import br.com.calculo_de_impostos.models.TaxModel;
 import br.com.calculo_de_impostos.repositories.taxRepository.TaxCalculationRepository;
 import br.com.calculo_de_impostos.services.taxService.TaxCalculationService;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,6 @@ public class TaxCalculationServiceImplTest {
 
     @Test
     public void testTaxCalculationSuccess() {
-        //arrange
         taxModel.setId(1L);
         taxModel.setName("ICMS");
         taxModel.setAliquot(18.0);
@@ -41,13 +41,26 @@ public class TaxCalculationServiceImplTest {
         taxCalculationRequest.setTaxTypeId(1L);
         taxCalculationRequest.setBaseValue(1000.0);
 
-        //act
         TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
 
-        //assert
         Assertions.assertEquals("ICMS", taxCalculationResponse.getTaxTypeName());
         Assertions.assertEquals(1000.0, taxCalculationResponse.getBaseValue());
         Assertions.assertEquals(18.0, taxCalculationResponse.getAliquot());
         Assertions.assertEquals(180.0, taxCalculationResponse.getTaxValue());
+    }
+
+    @Test
+    public void testTaxCalculationFail() {
+        Long taxTypeIdInvalid = 8L;
+
+        taxCalculationRequest.setTaxTypeId(taxTypeIdInvalid);
+        taxCalculationRequest.setBaseValue(1000.0);
+
+        Mockito.when(taxCalculationRepository.findById(taxTypeIdInvalid)).thenReturn(Optional.empty());
+
+        EntityNotFoundException entityNotFoundException = Assertions.
+                assertThrows(EntityNotFoundException.class, () -> taxCalculationService.taxCalculation(taxCalculationRequest));
+
+        Assertions.assertEquals("Imposto com o ID " + taxTypeIdInvalid + " não encontrado.", entityNotFoundException.getMessage());
     }
 }
