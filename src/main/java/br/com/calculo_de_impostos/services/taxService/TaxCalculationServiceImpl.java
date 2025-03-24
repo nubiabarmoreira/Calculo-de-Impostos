@@ -1,7 +1,7 @@
 package br.com.calculo_de_impostos.services.taxService;
 
-import br.com.calculo_de_impostos.dtos.TaxCalculationRequestDto;
-import br.com.calculo_de_impostos.dtos.TaxCalculationResponseDto;
+import br.com.calculo_de_impostos.dtos.taxDtos.TaxCalculationRequestDto;
+import br.com.calculo_de_impostos.dtos.taxDtos.TaxCalculationResponseDto;
 import br.com.calculo_de_impostos.models.TaxModel;
 import br.com.calculo_de_impostos.repositories.taxRepository.TaxCalculationRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,7 +26,7 @@ public class TaxCalculationServiceImpl implements TaxCalculationService {
 
     private TaxModel checkIfTaxByIdExists(Long id) {
         return taxCalculationRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Imposto com o ID " + id + "não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Imposto com o ID " + id + " não encontrado."));
     }
 
     private double taxCalculationBase(double baseValue, double aliquot) {
