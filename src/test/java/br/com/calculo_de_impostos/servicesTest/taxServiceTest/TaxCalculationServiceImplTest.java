@@ -50,7 +50,7 @@ public class TaxCalculationServiceImplTest {
     }
 
     @Test
-    public void testTaxCalculationFail() {
+    public void testCheckIfTaxByIdExists() {
         Long taxTypeIdInvalid = 8L;
 
         taxCalculationRequest.setTaxTypeId(taxTypeIdInvalid);
