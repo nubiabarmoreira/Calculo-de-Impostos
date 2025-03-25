@@ -1,31 +1,23 @@
 package br.com.calculo_de_impostos.servicesTest.taxServiceTest;
 
-import br.com.calculo_de_impostos.models.TaxModel;
 import br.com.calculo_de_impostos.repositories.taxRepository.DeleteTaxByIdRepository;
-import br.com.calculo_de_impostos.services.taxService.DeleteTaxByIdService;
+import br.com.calculo_de_impostos.services.taxService.DeleteTaxByIdServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
-
-@SpringBootTest
-@ExtendWith(MockitoExtension.class)
+//@SpringBootTest
+//@ExtendWith(MockitoExtension.class)
 public class DeleteTaxByIdServiceImplTest {
 
     @Mock
     private DeleteTaxByIdRepository deleteTaxByIdRepository;
 
     @InjectMocks
-    private DeleteTaxByIdService deleteTaxByIdService;
-
-    TaxModel taxModel = new TaxModel();
+    private DeleteTaxByIdServiceImpl deleteTaxByIdService;
 
     @Test
     public void testDeleteTaxByIdSuccess() {

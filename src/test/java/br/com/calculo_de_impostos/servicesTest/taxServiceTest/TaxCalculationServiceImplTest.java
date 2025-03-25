@@ -4,28 +4,25 @@ import br.com.calculo_de_impostos.dtos.taxDtos.TaxCalculationRequestDto;
 import br.com.calculo_de_impostos.dtos.taxDtos.TaxCalculationResponseDto;
 import br.com.calculo_de_impostos.models.TaxModel;
 import br.com.calculo_de_impostos.repositories.taxRepository.TaxCalculationRepository;
-import br.com.calculo_de_impostos.services.taxService.TaxCalculationService;
+import br.com.calculo_de_impostos.services.taxService.TaxCalculationServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-@SpringBootTest
-@ExtendWith(MockitoExtension.class)
+//@SpringBootTest
+//@ExtendWith(MockitoExtension.class)
 public class TaxCalculationServiceImplTest {
 
     @Mock
     private TaxCalculationRepository taxCalculationRepository;
 
     @InjectMocks
-    private TaxCalculationService taxCalculationService;
+    private TaxCalculationServiceImpl taxCalculationService;
 
     TaxModel taxModel = new TaxModel();
     TaxCalculationRequestDto taxCalculationRequest = new TaxCalculationRequestDto();
