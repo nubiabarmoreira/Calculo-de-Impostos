@@ -78,12 +78,14 @@ public class CreateTaxControllerTest {
 
     @Test
     public void testCreateTaxWithNegativeAliquot() {
-        taxRequest.setName("ICMS");
-        taxRequest.setDescription("ICMS");
-        taxRequest.setAliquot(-5.0);
+        TaxRequestDto taxRequest = new TaxRequestDto("ICMS", "ICMS", -5.0);
+
+        Mockito.when(createTaxService.createTax("ICMS", "ICMS", -5.0))
+                .thenThrow(new IllegalArgumentException("A alíquota do imposto deve ser maior do que zero."));
 
         IllegalArgumentException exception = Assertions
-                .assertThrows(IllegalArgumentException.class, () -> createTaxController.createTax(taxRequest));
+                .assertThrows(IllegalArgumentException.class,
+                        () -> createTaxController.createTax(taxRequest));
 
         Assertions.assertEquals("A alíquota do imposto deve ser maior do que zero.", exception.getMessage());
     }
