@@ -51,7 +51,6 @@ public class CreateTaxControllerTest {
     @Test
     public void testCreateTaxWithNullName() {
         TaxRequestDto taxRequest = new TaxRequestDto(null, "ICMS", 18.0);
-        TaxResponseDto taxResponse = new TaxResponseDto(null, "ICMS", 18.0);
 
         Mockito.when(createTaxService.createTax(null, "ICMS", 18.0))
                 .thenThrow(new IllegalArgumentException("O nome do imposto deve ser informado."));
@@ -65,12 +64,14 @@ public class CreateTaxControllerTest {
 
     @Test
     public void testCreateTaxWithEmptyDescription() {
-        taxRequest.setName("ICMS");
-        taxRequest.setDescription(" ");
-        taxRequest.setAliquot(18.0);
+        TaxRequestDto taxRequest = new TaxRequestDto("ICMS", " ", 18.0);
+
+        Mockito.when(createTaxService.createTax("ICMS", " ", 18.0))
+                .thenThrow(new IllegalArgumentException("A descrição do imposto deve ser informada."));
 
         IllegalArgumentException exception = Assertions
-                .assertThrows(IllegalArgumentException.class, () -> createTaxController.createTax(taxRequest));
+                .assertThrows(IllegalArgumentException.class,
+                        () -> createTaxController.createTax(taxRequest));
 
         Assertions.assertEquals("A descrição do imposto deve ser informada.", exception.getMessage());
     }
