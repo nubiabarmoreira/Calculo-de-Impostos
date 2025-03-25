@@ -34,19 +34,25 @@ public class FindTaxByIdServiceImplTest {
 
     @Test
     public void testFindTaxByIdSuccess() {
-        long id = 1L;
+        long id = 3L;
+
+        TaxModel taxModel = new TaxModel();
+        taxModel.setId(id);
         taxModel.setName("IPI");
         taxModel.setDescription("IPI");
         taxModel.setAliquot(3.25);
 
-        Mockito.when(findTaxByIdRepository.findById(id)).thenReturn(taxModel);
+        Mockito.when(findTaxByIdRepository.findById(id)).thenReturn(Optional.of(taxModel));
 
         TaxResponseDto taxResponse = findTaxByIdService.findTaxById(id);
 
+        Assertions.assertNotNull(taxResponse);
         Assertions.assertEquals(id, taxResponse.getId());
         Assertions.assertEquals("IPI", taxResponse.getName());
         Assertions.assertEquals("IPI", taxResponse.getDescription());
         Assertions.assertEquals(3.25, taxResponse.getAliquot());
+
+        Mockito.verify(findTaxByIdRepository, Mockito.times(1)).findById(id);
     }
 
     @Test

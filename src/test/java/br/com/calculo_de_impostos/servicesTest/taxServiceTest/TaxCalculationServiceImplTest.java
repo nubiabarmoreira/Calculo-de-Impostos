@@ -26,24 +26,27 @@ public class TaxCalculationServiceImplTest {
     @InjectMocks
     private TaxCalculationServiceImpl taxCalculationService;
 
+    private TaxModel taxModel;
+    private TaxCalculationRequestDto taxCalculationRequest;
+
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-    }
 
-    TaxModel taxModel = new TaxModel();
-    TaxCalculationRequestDto taxCalculationRequest = new TaxCalculationRequestDto();
-
-    @Test
-    public void testTaxCalculationSuccess() {
-        taxModel.setId(1L);
+        taxModel = new TaxModel();
+        taxModel.setId(3L);
         taxModel.setName("ICMS");
         taxModel.setAliquot(18.0);
 
-        Mockito.when(taxCalculationRepository.findById(1L)).thenReturn(taxModel);
-
-        taxCalculationRequest.setTaxTypeId(1L);
+        taxCalculationRequest = new TaxCalculationRequestDto();
+        taxCalculationRequest.setTaxTypeId(3L);
         taxCalculationRequest.setBaseValue(1000.0);
+    }
+
+    @Test
+    public void testTaxCalculationSuccess() {
+        Mockito.when(taxCalculationRepository.findById(3L)).thenReturn(Optional.of(taxModel));
 
         TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
 
@@ -70,16 +73,12 @@ public class TaxCalculationServiceImplTest {
 
     @Test
     public void testTaxCalculationBaseWithZeroBaseValue() {
-        taxModel.setId(1L);
-        taxModel.setName("ICMS");
-        taxModel.setAliquot(18.0);
+        Mockito.when(taxCalculationRepository.findById(3L)).thenReturn(Optional.of(taxModel));
 
-        Mockito.when(taxCalculationRepository.findById(1L)).thenReturn(taxModel);
-
-        taxCalculationRequest.setTaxTypeId(1L);
+        taxCalculationRequest.setTaxTypeId(3L);
         taxCalculationRequest.setBaseValue(0.0);
 
-        TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
+            TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
 
         Assertions.assertEquals(0.0, taxCalculationResponse.getTaxValue());
     }
