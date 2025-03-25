@@ -17,10 +17,10 @@ public class CreateTaxServiceImpl implements CreateTaxService {
 
     @Override
     public TaxResponseDto createTax(String name, String description, double aliquot) {
-        if (name.isBlank() || description.isEmpty()) {
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("O nome do imposto deve ser informado.");
         }
-        if (description.isBlank() || description.isEmpty()) {
+        if (description == null || description.isBlank()) {
             throw new IllegalArgumentException("A descrição do imposto deve ser informada.");
         }
         if (aliquot <= 0) {
