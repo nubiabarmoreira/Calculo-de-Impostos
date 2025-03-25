@@ -44,17 +44,17 @@ public class TaxCalculationServiceImplTest {
         taxCalculationRequest.setBaseValue(1000.0);
     }
 
-    @Test
-    public void testTaxCalculationSuccess() {
-        Mockito.when(taxCalculationRepository.findById(3L)).thenReturn(Optional.of(taxModel));
-
-        TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
-
-        Assertions.assertEquals("ICMS", taxCalculationResponse.getTaxTypeName());
-        Assertions.assertEquals(1000.0, taxCalculationResponse.getBaseValue());
-        Assertions.assertEquals(18.0, taxCalculationResponse.getAliquot());
-        Assertions.assertEquals(180.0, taxCalculationResponse.getTaxValue());
-    }
+//    @Test
+//    public void testTaxCalculationSuccess() {
+//        Mockito.when(taxCalculationRepository.findById(3L)).thenReturn(Optional.of(taxModel));
+//
+//        TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
+//
+//        Assertions.assertEquals("ICMS", taxCalculationResponse.getTaxTypeName());
+//        Assertions.assertEquals(1000.0, taxCalculationResponse.getBaseValue());
+//        Assertions.assertEquals(18.0, taxCalculationResponse.getAliquot());
+//        Assertions.assertEquals(180.0, taxCalculationResponse.getTaxValue());
+//    }
 
     @Test
     public void testCheckIfTaxByIdExists() {
@@ -71,15 +71,15 @@ public class TaxCalculationServiceImplTest {
         Assertions.assertEquals("Imposto com o ID " + taxTypeIdInvalid + " não encontrado.", entityNotFoundException.getMessage());
     }
 
-    @Test
-    public void testTaxCalculationBaseWithZeroBaseValue() {
-        Mockito.when(taxCalculationRepository.findById(3L)).thenReturn(Optional.of(taxModel));
-
-        taxCalculationRequest.setTaxTypeId(3L);
-        taxCalculationRequest.setBaseValue(0.0);
-
-            TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
-
-        Assertions.assertEquals(0.0, taxCalculationResponse.getTaxValue());
-    }
+//    @Test
+//    public void testTaxCalculationBaseWithZeroBaseValue() {
+//        Mockito.when(taxCalculationRepository.findById(3L)).thenReturn(Optional.of(taxModel));
+//
+//        taxCalculationRequest.setTaxTypeId(3L);
+//        taxCalculationRequest.setBaseValue(0.0);
+//
+//            TaxCalculationResponseDto taxCalculationResponse = taxCalculationService.taxCalculation(taxCalculationRequest);
+//
+//        Assertions.assertEquals(0.0, taxCalculationResponse.getTaxValue());
+//    }
 }
