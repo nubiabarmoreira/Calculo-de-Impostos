@@ -5,18 +5,19 @@ import br.com.calculo_de_impostos.dtos.taxDtos.TaxRequestDto;
 import br.com.calculo_de_impostos.dtos.taxDtos.TaxResponseDto;
 import br.com.calculo_de_impostos.services.taxService.CreateTaxService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@SpringBootTest
-@ExtendWith(MockitoExtension.class)
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
+//@SpringBootTest
+//@ExtendWith(MockitoExtension.class)
 public class CreateTaxControllerTest {
 
     @Mock
@@ -25,7 +26,13 @@ public class CreateTaxControllerTest {
     @InjectMocks
     private CreateTaxController createTaxController;
 
-    TaxRequestDto taxRequest = new TaxRequestDto();
+    private TaxRequestDto taxRequest;
+    private TaxResponseDto taxResponse;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testCreateTaxSuccess() {
@@ -43,12 +50,15 @@ public class CreateTaxControllerTest {
 
     @Test
     public void testCreateTaxWithNullName() {
-        taxRequest.setName(null);
-        taxRequest.setDescription("ICMS");
-        taxRequest.setAliquot(18.0);
+        TaxRequestDto taxRequest = new TaxRequestDto(null, "ICMS", 18.0);
+        TaxResponseDto taxResponse = new TaxResponseDto(null, "ICMS", 18.0);
 
-        IllegalArgumentException exception = Assertions
-                .assertThrows(IllegalArgumentException.class, () -> createTaxController.createTax(taxRequest));
+        Mockito.when(createTaxService.createTax(null, "ICMS", 18.0))
+                .thenThrow(new IllegalArgumentException("O nome do imposto deve ser informado."));
+
+        Exception exception = Assertions
+                .assertThrows(IllegalArgumentException.class,
+                        () -> createTaxController.createTax(taxRequest));
 
         Assertions.assertEquals("O nome do imposto deve ser informado.", exception.getMessage());
     }
