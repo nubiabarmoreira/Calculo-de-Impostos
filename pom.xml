@@ -107,9 +107,9 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>/models/</exclude>
-						<exclude>/dtos/</exclude>
-						<exclude>/repositories/</exclude>
+						<exclude>**/models/**</exclude>
+						<exclude>**/dtos/**</exclude>
+						<exclude>**/repositories/**</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
