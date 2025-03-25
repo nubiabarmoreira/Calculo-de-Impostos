@@ -5,10 +5,12 @@ import br.com.calculo_de_impostos.models.TaxModel;
 import br.com.calculo_de_impostos.repositories.taxRepository.FindAllTaxRepository;
 import br.com.calculo_de_impostos.services.taxService.FindAllTaxServiceImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +24,11 @@ public class FindAllTaxServiceImplTest {
 
     @InjectMocks
     private FindAllTaxServiceImpl findAllTaxService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testFindAllTaxSuccess() {

@@ -7,10 +7,12 @@ import br.com.calculo_de_impostos.repositories.taxRepository.TaxCalculationRepos
 import br.com.calculo_de_impostos.services.taxService.TaxCalculationServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
@@ -23,6 +25,11 @@ public class TaxCalculationServiceImplTest {
 
     @InjectMocks
     private TaxCalculationServiceImpl taxCalculationService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     TaxModel taxModel = new TaxModel();
     TaxCalculationRequestDto taxCalculationRequest = new TaxCalculationRequestDto();

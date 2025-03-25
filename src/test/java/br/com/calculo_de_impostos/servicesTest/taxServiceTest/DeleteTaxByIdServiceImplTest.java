@@ -4,10 +4,12 @@ import br.com.calculo_de_impostos.repositories.taxRepository.DeleteTaxByIdReposi
 import br.com.calculo_de_impostos.services.taxService.DeleteTaxByIdServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 //@SpringBootTest
 //@ExtendWith(MockitoExtension.class)
@@ -18,6 +20,11 @@ public class DeleteTaxByIdServiceImplTest {
 
     @InjectMocks
     private DeleteTaxByIdServiceImpl deleteTaxByIdService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testDeleteTaxByIdSuccess() {
