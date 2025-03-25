@@ -17,6 +17,16 @@ public class CreateTaxServiceImpl implements CreateTaxService {
 
     @Override
     public TaxResponseDto createTax(String name, String description, double aliquot) {
+        if (name.isBlank() || description.isEmpty()) {
+            throw new IllegalArgumentException("O nome do imposto deve ser informado.");
+        }
+        if (description.isBlank() || description.isEmpty()) {
+            throw new IllegalArgumentException("A descrição do imposto deve ser informada.");
+        }
+        if (aliquot <= 0) {
+            throw new IllegalArgumentException("A alíquota do imposto deve ser maior do que zero.");
+        }
+
         TaxModel taxToCreate = new TaxModel(name, description, aliquot);
         TaxModel taxCreated = saveTaxRepository.save(taxToCreate);
 
