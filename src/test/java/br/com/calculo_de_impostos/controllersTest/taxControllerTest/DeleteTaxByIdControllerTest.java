@@ -5,18 +5,20 @@ import br.com.calculo_de_impostos.dtos.taxDtos.TaxRequestDto;
 import br.com.calculo_de_impostos.services.taxService.DeleteTaxByIdService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@SpringBootTest
-@ExtendWith(MockitoExtension.class)
+//@SpringBootTest
+//@ExtendWith(MockitoExtension.class)
 public class DeleteTaxByIdControllerTest {
 
     @Mock
@@ -25,7 +27,12 @@ public class DeleteTaxByIdControllerTest {
     @InjectMocks
     private DeleteTaxByIdController deleteTaxByIdController;
 
-    TaxRequestDto taxRequest = new TaxRequestDto();
+    private TaxRequestDto taxRequest;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testDeleteTaxByIdControllerSuccess() {
