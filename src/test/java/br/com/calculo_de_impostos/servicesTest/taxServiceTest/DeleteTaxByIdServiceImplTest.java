@@ -39,15 +39,15 @@ public class DeleteTaxByIdServiceImplTest {
 
     @Test
     public void testDeleteTaxByIdFail() {
-        long invalidId = 2L;
+        long id = 2L;
 
-        Mockito.when(deleteTaxByIdRepository.existsById(invalidId)).thenReturn(false);
+        Mockito.when(deleteTaxByIdRepository.existsById(id)).thenReturn(false);
 
         EntityNotFoundException entityNotFoundException = Assertions
-                .assertThrows(EntityNotFoundException.class, () -> deleteTaxByIdService.deleteTaxById(invalidId));
+                .assertThrows(EntityNotFoundException.class, () -> deleteTaxByIdService.deleteTaxById(id));
 
-        Assertions.assertEquals("Imposto com o ID " + invalidId + " não encontrado.", entityNotFoundException.getMessage());
+        Assertions.assertEquals("O imposto com o ID " + id + " não foi encontrado.", entityNotFoundException.getMessage());
 
-        Mockito.verify(deleteTaxByIdRepository, Mockito.never()).deleteById(Mockito.anyLong());
+        Mockito.verify(deleteTaxByIdRepository, Mockito.never()).deleteById(id);
     }
 }
