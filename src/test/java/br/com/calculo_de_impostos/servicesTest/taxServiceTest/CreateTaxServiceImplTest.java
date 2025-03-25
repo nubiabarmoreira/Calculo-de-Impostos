@@ -54,9 +54,8 @@ public class CreateTaxServiceImplTest {
         String description = "ICMS";
         double aliquot = 18.0;
 
-        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            createTaxService.createTax(name, description, aliquot);
-        });
+        IllegalArgumentException exception = Assertions.
+                assertThrows(IllegalArgumentException.class, () -> createTaxService.createTax(name, description, aliquot));
 
         Assertions.assertEquals("O nome do imposto deve ser informado.", exception.getMessage());
     }
