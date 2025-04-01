@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
 public class TaxModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank(message = "O nome do imposto deve ser informado.")
     @Size(min = 2, message = "O nome do imposto deve ter no mínimo 2 caracteres.")
@@ -26,7 +26,7 @@ public class TaxModel {
     @Column(name = "aliquota")
     private double aliquot;
 
-    public TaxModel(long id, String name, String description, double aliquot) {
+    public TaxModel(Long id, String name, String description, double aliquot) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,7 +45,7 @@ public class TaxModel {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
