@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TaxCalculationRepository extends JpaRepository<TaxModel, Long> {
-    Optional<TaxModel> findById(long id);
+    Optional<TaxModel> findById(Long id);
 }

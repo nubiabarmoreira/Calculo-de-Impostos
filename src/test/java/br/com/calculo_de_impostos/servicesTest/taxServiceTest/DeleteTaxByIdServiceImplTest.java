@@ -28,7 +28,7 @@ public class DeleteTaxByIdServiceImplTest {
 
     @Test
     public void testDeleteTaxByIdSuccess() {
-        long id = 1L;
+        Long id = 1L;
 
         Mockito.when(deleteTaxByIdRepository.existsById(id)).thenReturn(true);
 
@@ -39,7 +39,7 @@ public class DeleteTaxByIdServiceImplTest {
 
     @Test
     public void testDeleteTaxByIdFail() {
-        long id = 2L;
+        Long id = 2L;
 
         Mockito.when(deleteTaxByIdRepository.existsById(id)).thenReturn(false);
 

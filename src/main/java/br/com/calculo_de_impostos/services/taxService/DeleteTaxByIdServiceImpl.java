@@ -15,7 +15,7 @@ public class DeleteTaxByIdServiceImpl implements DeleteTaxByIdService {
     }
 
     @Override
-    public void deleteTaxById(long id) {
+    public void deleteTaxById(Long id) {
         if (!deleteTaxByIdRepository.existsById(id)) {
             throw new EntityNotFoundException("O imposto com o ID " + id + " não foi encontrado.");
         }
